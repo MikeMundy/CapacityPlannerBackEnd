@@ -1,7 +1,7 @@
 module.exports = {
-  HOST: "localhost",
-  PORT: 3307,
-  USER: "admin",
-  PASSWORD: "abc123",
-  DB: "hackathon"
+  HOST: process.env.HOST,
+  PORT: process.env.PORT,
+  USER: process.env.USER,
+  PASSWORD: process.env.PASS,
+  DB: process.env.DB
 };
