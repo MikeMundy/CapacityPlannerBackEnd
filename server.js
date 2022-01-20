@@ -20,6 +20,8 @@ require("./app/routes/team.routes.js")(app);
 require("./app/routes/location.routes.js")(app);
 require("./app/routes/location-holiday.routes.js")(app);
 require("./app/routes/person-vacation.routes.js")(app);
+require("./app/routes/iteration.routes.js")(app);
+require("./app/routes/program-increment.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
