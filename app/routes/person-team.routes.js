@@ -1,25 +1,25 @@
 module.exports = app => {
-  const pearsonTeam = require("../controllers/person-team.controller.js");
+  const personTeam = require("../controllers/person-team.controller.js");
 
   var router = require("express").Router();
 
-  // Create a new PearsonTeam
-  router.post("/", pearsonTeam.create);
+  // Create a new PersonTeam
+  router.post("/", personTeam.create);
 
-  // Retrieve all PearsonTeam
-  router.get("/", pearsonTeam.findAll);
+  // Retrieve all PersonTeam
+  router.get("/", personTeam.findAll);
 
-  // Retrieve a single PearsonTeam with id
-  router.get("/:id", pearsonTeam.findOne);
+  // Retrieve a single PersonTeam with id
+  router.get("/:id", personTeam.findOne);
 
-  // Update a PearsonTeam with id
-  router.put("/:id", pearsonTeam.update);
+  // Update a PersonTeam with id
+  router.put("/:id", personTeam.update);
 
-  // Delete a PearsonTeam with id
-  router.delete("/:id", pearsonTeam.delete);
+  // Delete a PersonTeam with id
+  router.delete("/:id", personTeam.delete);
 
-  // Delete all PearsonTeam
-  router.delete("/", pearsonTeam.deleteAll);
+  // Delete all PersonTeam
+  router.delete("/", personTeam.deleteAll);
 
   app.use('/api/person-team', router);
 };
