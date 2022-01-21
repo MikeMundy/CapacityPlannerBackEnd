@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 require("./app/routes/person.routes.js")(app);
 require("./app/routes/team.routes.js")(app);
-require("./app/routes/pearson-team.routes.js")(app);
+require("./app/routes/person-team.routes.js")(app);
 require("./app/routes/location.routes.js")(app);
 require("./app/routes/location-holiday.routes.js")(app);
 require("./app/routes/person-vacation.routes.js")(app);
