@@ -57,4 +57,21 @@ PersonTeam.remove = async (personId, teamId) => {
   }
 };
 
+PersonTeam.removeByPersonId = async (personId) => {
+  try {
+    const [rows] = await sql.promise().query(`DELETE FROM PersonTeam WHERE personId = ?' : ''}`, [personId]);
+    if (rows == 0) {
+      // not found person team with the id
+      return { err: { kind: "not_found" }, err: null };
+    }
+    console.log("deleted person teams for personId: ", personId, teamId);
+    return { err: null, data: null };
+  } catch (err) {
+    if (err) {
+      console.log("error: ", err);
+      return { data: null, err };
+    }
+  }
+};
+
 module.exports = PersonTeam;
