@@ -21,5 +21,5 @@ module.exports = app => {
   // Delete all PearsonTeam
   router.delete("/", pearsonTeam.deleteAll);
 
-  app.use('/api/pearson-team', router);
+  app.use('/api/person-team', router);
 };
