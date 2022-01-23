@@ -12,6 +12,7 @@ exports.create = async (req, res) => {
 
   // Create a Person
   const person = new Person({
+    id: req.body.id,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     locationId: req.body.locationId,
@@ -25,15 +26,21 @@ exports.create = async (req, res) => {
         err.message || "Some error occurred while creating the Person."
     });
   else {
-    const personId = data.id;
+    console.log("data: " + JSON.stringify(data));
+    const thisPersonId = data.id;
     const personTeams = [];
     for (const team of req.body.personTeams) {
-      const { err, data } = await PersonTeam.create({
-        personId,
+
+      const newPersonTeam = {
+        personId: thisPersonId,
         teamId: team.teamId,
         role: team.role,
-        percentage: team.percentage,
-      });
+        percentage: team.percentage
+      };
+
+      console.log("newPersonTeam: " + JSON.stringify(newPersonTeam));
+
+      const { err, data } = await PersonTeam.create(newPersonTeam);
       if (err && !data)
         console.log(err.message);
       else personTeams.push(data);
@@ -129,22 +136,7 @@ exports.delete = async (req, res) => {
       });
     }
   } else {
-    // Delete the Person's PersonTeams:
-    let { err } = await PersonTeam.removeByPersonId(req.params.id);
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found PersonTeam with Personid ${req.params.id}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Could not delete PersonTeams with Personid " + req.params.id
-        });
-      }
-    }
-    else {
-      res.send({ message: `Person was deleted successfully!` });
-    }
+    res.send({ message: `Person was deleted successfully!` });
   }
 };
 

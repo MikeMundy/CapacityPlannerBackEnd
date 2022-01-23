@@ -10,7 +10,8 @@ const PersonTeam = function (personTeam) {
 
 PersonTeam.create = async (newPersonTeam) => {
   try {
-    const [res] = await sql.promise().query("INSERT INTO PersonTeam SET ?", newPersonTeam);
+    console.log("newPersonTeam: " + JSON.stringify(newPersonTeam));
+    const [res] = await sql.promise().query("INSERT INTO personTeam SET ?", newPersonTeam);
     console.log("created person team: ", { id: res.insertId, ...newPersonTeam });
     return { err: null, data: { id: res.insertId, ...newPersonTeam } };
   } catch (err) {
@@ -22,7 +23,7 @@ PersonTeam.create = async (newPersonTeam) => {
 };
 
 PersonTeam.getAll = async (personId, teamId) => {
-  let query = "SELECT * FROM PersonTeam";
+  let query = "SELECT * FROM personTeam";
 
   if (personId && teamId) {
     query += ' WHERE personId = ? AND teamId = ?';
@@ -42,7 +43,7 @@ PersonTeam.getAll = async (personId, teamId) => {
 
 PersonTeam.remove = async (personId, teamId) => {
   try {
-    const [rows] = await sql.promise().query(`DELETE FROM PersonTeam WHERE personId = ? ${teamId ? 'AND teamId = ?' : ''}`, [personId, teamId]);
+    const [rows] = await sql.promise().query(`DELETE FROM personTeam WHERE personId = ? ${teamId ? 'AND teamId = ?' : ''}`, [personId, teamId]);
     if (rows == 0) {
       // not found person team with the id
       return { err: { kind: "not_found" }, err: null };
@@ -59,12 +60,29 @@ PersonTeam.remove = async (personId, teamId) => {
 
 PersonTeam.removeByPersonId = async (personId) => {
   try {
-    const [rows] = await sql.promise().query(`DELETE FROM PersonTeam WHERE personId = ?' : ''}`, [personId]);
+    const [rows] = await sql.promise().query(`DELETE FROM personTeam WHERE personId = ?' : ''}`, [personId]);
     if (rows == 0) {
       // not found person team with the id
       return { err: { kind: "not_found" }, err: null };
     }
     console.log("deleted person teams for personId: ", personId, teamId);
+    return { err: null, data: null };
+  } catch (err) {
+    if (err) {
+      console.log("error: ", err);
+      return { data: null, err };
+    }
+  }
+};
+
+PersonTeam.removeByTeamId = async (teamId) => {
+  try {
+    const [rows] = await sql.promise().query(`DELETE FROM personTeam WHERE teamId = ?' : ''}`, [teamId]);
+    if (rows == 0) {
+      // not found person team with the id
+      return { err: { kind: "not_found" }, err: null };
+    }
+    console.log("deleted person teams for teamId: ", teamId);
     return { err: null, data: null };
   } catch (err) {
     if (err) {

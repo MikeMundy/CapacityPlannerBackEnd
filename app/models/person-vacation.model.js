@@ -59,7 +59,7 @@ PersonVacation.getAll = async (name) => {
 
 PersonVacation.updateById = async (id, personVacation) => {
   try {
-    const [res] = await sql.promise().query("UPDATE PersonVacation SET name = ? WHERE id = ?", [personVacation.name, id]);
+    const [res] = await sql.promise().query("UPDATE PersonVacation SET fractionOfDay = ? WHERE id = ?", [personVacation.fractionOfDay, id]);
     if (res.affectedRows == 0) {
       // not found person vacation with the id
       return { err: { kind: "not_found" }, data: null };
