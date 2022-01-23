@@ -57,7 +57,7 @@ exports.findOne = async (req, res) => {
   } else res.send(data);
 };
 
-// Update a Person identified by the id in the request
+// Update a Location identified by the id in the request
 exports.update = async (req, res) => {
   // Validate Request
   if (!req.body) {

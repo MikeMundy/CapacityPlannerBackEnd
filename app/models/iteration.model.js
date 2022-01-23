@@ -2,7 +2,7 @@ const sql = require("./db.js");
 
 // constructor
 const Iteration = function (iteration) {
-  this.programIterationId = iteration.programIterationId;
+  this.programIncrementId = iteration.programIncrementId;
   this.name = iteration.name;
   this.startDate = iteration.startDate;
   this.lengthInDays = iteration.lengthInDays;
@@ -61,7 +61,7 @@ Iteration.getAll = async (name) => {
 
 Iteration.updateById = async (id, iteration) => {
   try {
-    const [res] = await sql.promise().query("UPDATE Iteration SET name = ? WHERE id = ?", [iteration.name, id]);
+    const [res] = await sql.promise().query("UPDATE Iteration SET name = ?, startDate = ?, lengthInDays = ?, points = ? WHERE id = ?", [iteration.name, iteration.startDate, iteration.lengthInDays, iteration.points, id]);
     if (res.affectedRows == 0) {
       // not found iteration with the id
       return { err: { kind: "not_found" }, data: null };

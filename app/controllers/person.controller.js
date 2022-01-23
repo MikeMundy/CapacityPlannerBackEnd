@@ -12,6 +12,7 @@ exports.create = async (req, res) => {
 
   // Create a Person
   const person = new Person({
+    id: req.body.id,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     locationId: req.body.locationId,
@@ -25,15 +26,21 @@ exports.create = async (req, res) => {
         err.message || "Some error occurred while creating the Person."
     });
   else {
-    const personId = data.id;
+    console.log("data: " + JSON.stringify(data));
+    const thisPersonId = data.id;
     const personTeams = [];
     for (const team of req.body.personTeams) {
-      const { err, data } = await PersonTeam.create({
-        personId,
+
+      const newPersonTeam = {
+        personId: thisPersonId,
         teamId: team.teamId,
         role: team.role,
-        percentage: team.percentage,
-      });
+        percentage: team.percentage
+      };
+
+      console.log("newPersonTeam: " + JSON.stringify(newPersonTeam));
+
+      const { err, data } = await PersonTeam.create(newPersonTeam);
       if (err && !data)
         console.log(err.message);
       else personTeams.push(data);
@@ -54,8 +61,8 @@ exports.findAll = async (req, res) => {
         err.message || "Some error occurred while retrieving persons."
     });
   else {
-    const { err, data: personTeams } = await PersonTeam.getAll(data.personId, data.teamId);
-    res.send({ ...data, personTeams });
+    const { err, data: persons } = await Person.getAll(data.personId, data.teamId);
+    res.send(data);
   }
 };
 
@@ -116,6 +123,7 @@ exports.update = async (req, res) => {
 
 // Delete a Person with the specified id in the request
 exports.delete = async (req, res) => {
+  // Delete the Person.
   let { err } = await Person.remove(req.params.id);
   if (err) {
     if (err.kind === "not_found") {
@@ -127,7 +135,9 @@ exports.delete = async (req, res) => {
         message: "Could not delete Person with id " + req.params.id
       });
     }
-  } else res.send({ message: `Person was deleted successfully!` });
+  } else {
+    res.send({ message: `Person was deleted successfully!` });
+  }
 };
 
 // Delete all Person from the database.

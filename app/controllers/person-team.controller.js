@@ -11,6 +11,7 @@ exports.create = async (req, res) => {
 
   // Create a PersonTeam
   const personTeam = new PersonTeam({
+    id: req.body.id,
     name: req.body.name
   });
 

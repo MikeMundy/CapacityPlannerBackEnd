@@ -9,6 +9,7 @@ const Person = function (person) {
 
 Person.create = async (newPerson) => {
   try {
+    console.log("newPerson: " + JSON.stringify(newPerson));
     const [res] = await sql.promise().query("INSERT INTO Person SET ?", newPerson);
     console.log("created person: ", { id: res.insertId, ...newPerson });
     return { err: null, data: { id: res.insertId, ...newPerson } }
@@ -59,7 +60,7 @@ Person.getAll = async (firstName, lastName) => {
 
 Person.updateById = async (id, person) => {
   try {
-    const [res] = await sql.promise().query("UPDATE Person SET firstName = ?, lastName = ? WHERE id = ?", [person.firstName, person.lastName, id]);
+    const [res] = await sql.promise().query("UPDATE Person SET firstName = ?, lastName = ?, locationId = ? WHERE id = ?", [person.firstName, person.lastName, person.locationId, id]);
     if (res.affectedRows == 0) {
       // not found person with the id
       return { err: { kind: "not_found" }, data: null };

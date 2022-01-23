@@ -4,7 +4,7 @@ const sql = require("./db.js");
 const LocationHoliday = function (locationHoliday) {
   this.locationId = locationHoliday.locationId;
   this.name = locationHoliday.name;
-  this.date = locationHoliday.date;
+  this.date = new Date(locationHoliday.date);
 };
 
 LocationHoliday.create = async (newLocationHoliday) => {
@@ -59,7 +59,7 @@ LocationHoliday.getAll = async (name) => {
 
 LocationHoliday.updateById = async (id, locationHoliday) => {
   try {
-    const [res] = await sql.promise().query("UPDATE LocationHoliday SET name = ? WHERE id = ?", [locationHoliday.name, id]);
+    const [res] = await sql.promise().query("UPDATE LocationHoliday SET name = ?, date = ? WHERE id = ?", [locationHoliday.name, locationHoliday.date, id]);
     if (res.affectedRows == 0) {
       // not found location holiday with the id
       return { err: { kind: "not_found" }, data: null };
@@ -84,19 +84,6 @@ LocationHoliday.remove = async (id) => {
     }
 
     console.log("deleted location holiday with id: ", id);
-    return { err: null, data: res };
-  } catch (err) {
-    if (err) {
-      console.log("error: ", err);
-      return { data: null, err };
-    }
-  }
-};
-
-LocationHoliday.removeAll = async () => {
-  try {
-    const [res] = await sql.promise().query("DELETE FROM LocationHoliday");
-    console.log(`deleted ${res.affectedRows} location holidays`);
     return { err: null, data: res };
   } catch (err) {
     if (err) {

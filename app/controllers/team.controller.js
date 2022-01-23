@@ -84,6 +84,8 @@ exports.update = async (req, res) => {
 
 // Delete a Team with the specified id in the request
 exports.delete = async (req, res) => {
+
+  // Delete the Team:
   let { err } = await Team.remove(req.params.id);
   if (err) {
     if (err.kind === "not_found") {
@@ -95,7 +97,9 @@ exports.delete = async (req, res) => {
         message: "Could not delete Team with id " + req.params.id
       });
     }
-  } else res.send({ message: `Team was deleted successfully!` });
+  } else {
+    res.send({ message: `Team was deleted successfully!` });
+  }
 };
 
 // Delete all Team from the database.
