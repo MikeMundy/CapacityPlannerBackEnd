@@ -58,7 +58,7 @@ create table Iteration
     lengthInDays       int           not null,
     points             int           not null,
     constraint Iteration_ProgramIncrement_id_fk
-        foreign key (programIterationId) references ProgramIncrement (id)
+        foreign key (programIncrementId) references ProgramIncrement (id)
             on delete cascade
 );
 
