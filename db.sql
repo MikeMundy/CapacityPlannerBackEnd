@@ -52,13 +52,13 @@ create table Iteration
 (
     id                 int auto_increment
         primary key,
-    programIterationId int           not null,
+    programIncrementId int           not null,
     name               varchar(1000) not null,
     startDate          datetime      not null,
     lengthInDays       int           not null,
     points             int           not null,
     constraint Iteration_ProgramIncrement_id_fk
-        foreign key (programIterationId) references ProgramIncrement (id)
+        foreign key (programIncrementId) references ProgramIncrement (id)
             on delete cascade
 );
 

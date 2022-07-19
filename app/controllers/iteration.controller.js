@@ -11,9 +11,9 @@ exports.create = async (req, res) => {
 
     // Create a Iteration
     const iteration = new Iteration({
-        programIterationId: req.body.programIterationId,
+        programIncrementId: req.body.programIncrementId,
         name: req.body.name,
-        startDate: req.body.startDate,
+        startDate: new Date(req.body.startDate),
         lengthInDays: req.body.lengthInDays,
         points: req.body.points
     });
@@ -70,7 +70,17 @@ exports.update = async (req, res) => {
         });
     }
 
-    const { err, data } = await Iteration.updateById(req.params.id, new Iteration(req.body));
+     // Edit an Iteration
+     const iteration = new Iteration({
+        id: req.body.id, 
+        programIncrementId: req.body.programIncrementId,
+        name: req.body.name,
+        startDate: new Date(req.body.startDate),
+        lengthInDays: req.body.lengthInDays,
+        points: req.body.points
+    });   
+
+    const { err, data } = await Iteration.updateById(req.params.id, new Iteration(iteration));
     if (err) {
         if (err.kind === "not_found") {
             res.status(404).send({

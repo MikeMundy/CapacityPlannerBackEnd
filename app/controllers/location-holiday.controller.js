@@ -11,7 +11,9 @@ exports.create = async (req, res) => {
 
   // Create a LocationHoliday
   const locationHoliday = new LocationHoliday({
-    name: req.body.name
+    locationId: req.body.locationId,
+    name: req.body.name,
+    date: req.body.date
   });
 
   // Save LocationHoliday in the database

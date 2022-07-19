@@ -11,7 +11,10 @@ exports.create = async (req, res) => {
 
   // Create a PersonVacation
   const personVacation = new PersonVacation({
-    name: req.body.name
+    id: -1,
+    personId: req.body.personId,
+    date: new Date(req.body.date),
+    fractionOfDay: req.body.fractionOfDay
   });
 
   // Save PersonVacation in the database
@@ -57,7 +60,7 @@ exports.findOne = async (req, res) => {
   } else res.send(data);
 };
 
-// Update a Person identified by the id in the request
+// Update a Person Vacation identified by the id in the request
 exports.update = async (req, res) => {
   // Validate Request
   if (!req.body) {
@@ -66,7 +69,14 @@ exports.update = async (req, res) => {
     });
   }
 
-  const { err, data } = await PersonVacation.updateById(req.params.id, new PersonVacation(req.body));
+  const personVacation = new PersonVacation({
+    id: req.body.id,
+    personId: req.body.personId,
+    date: new Date(req.body.date),
+    fractionOfDay: req.body.fractionOfDay
+  });
+
+  const { err, data } = await PersonVacation.updateById(req.params.id, new PersonVacation(personVacation));
   if (err) {
     if (err.kind === "not_found") {
       res.status(404).send({
